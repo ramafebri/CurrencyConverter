@@ -1,0 +1,34 @@
+# Add project specific R8 rules here.
+# AGP will combine all keep rule files in src/main/keepRules to pass to R8
+#
+# For more details, see
+#   https://d.android.com/r/tools/r8/keep-rules
+
+# Retrofit
+-keep,allowobfuscation,allowshrinking interface com.arq.currencyconverter.core.network.api.** { *; }
+
+# Kotlin serialization
+-keepattributes *Annotation*, InnerClasses
+-dontnote kotlinx.serialization.AnnotationsKt
+-keepclassmembers class kotlinx.serialization.json.** {
+    *** Companion;
+}
+-keepclasseswithmembers class com.arq.currencyconverter.core.network.api.** {
+    kotlinx.serialization.KSerializer serializer(...);
+}
+-keep,includedescriptorclasses class com.arq.currencyconverter.core.network.api.**$$serializer { *; }
+-keepclassmembers class com.arq.currencyconverter.core.network.api.** {
+    *** Companion;
+}
+-keepclasseswithmembers class com.arq.currencyconverter.core.network.api.** {
+    kotlinx.serialization.KSerializer serializer(...);
+}
+
+# Navigation 3 NavKeys
+-keep,includedescriptorclasses class com.arq.currencyconverter.navigator.NavKeys**$$serializer { *; }
+-keepclassmembers class com.arq.currencyconverter.navigator.NavKeys** {
+    *** Companion;
+}
+
+# Domain models - exclude from obfuscation
+-keep class com.arq.currencyconverter.**.model.** { *; }
